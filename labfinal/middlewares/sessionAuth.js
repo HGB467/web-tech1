@@ -1,4 +1,7 @@
-//sets user variable for pug files
+//This middleware sets user available in locals to be used in ejs files, also checks from roles array of user that a user has admin 
+//role or not and sets isAdmin based on that. Also defines flash function to display alerts in the browser 
+//(using bootstrap alert in ejs layout file)
+
 async function sessionAuth(req, res, next) {
   res.locals.user = req.session.user;
 

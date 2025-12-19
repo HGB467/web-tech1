@@ -2,16 +2,19 @@ var express = require("express");
 var router = express.Router();
 var Product = require("../models/Product");
 var Order = require("../models/Order");
+var cartMiddleware = require("../middlewares/cartnotEmpty");
 
 const buildCartCookie = (cart) => ({
   maxAge: 1000 * 60 * 60 * 24 * 7,
-  httpOnly: false,
-  sameSite: "lax",
+  httpOnly: false
 });
 
+//Normalizes cookie to an array so we only get an array to deal with
 const parseCart = (cartCookie) =>
   Array.isArray(cartCookie) ? [...cartCookie] : [];
 
+// Gets ids stored in req.cookies.cart, creates an objects which maps multiple ids to quantity and then fetches the products
+// for those ids to be sent and displayed to client side 
 const getCartDetails = async (cartIds) => {
   const counts = cartIds.reduce((acc, id) => {
     acc[id] = (acc[id] || 0) + 1;
@@ -32,13 +35,17 @@ const getCartDetails = async (cartIds) => {
   return { items, total };
 };
 
-router.get("/cart", async function (req, res, next) {
+
+// Gets cart details and renders ejs cart view with those details
+router.get("/cart", async function (req, res) {
   const cart = parseCart(req.cookies.cart);
   const { items, total } = await getCartDetails(cart);
   res.render("site/cart", { items, total });
 });
 
-router.get("/cart/remove/:id", function (req, res, next) {
+//Removes an item from cart based on item id (removes all ids for that item in the array), resets the cookie
+// and then redirects to cart page
+router.get("/cart/remove/:id", function (req, res) {
   const cart = parseCart(req.cookies.cart).filter(
     (itemId) => itemId !== req.params.id
   );
@@ -47,13 +54,15 @@ router.get("/cart/remove/:id", function (req, res, next) {
   res.redirect("/cart");
 });
 
-router.get("/cart/clear", function (req, res, next) {
+//Deletes the cart, resets empty array in cookie, shows success message using flash function and redirects to cart page again
+router.get("/cart/clear", function (req, res) {
   res.cookie("cart", [], buildCartCookie([]));
   req.flash("success", "Cart cleared");
   res.redirect("/cart");
 });
 
-router.get("/add-cart/:id", function (req, res, next) {
+//Adds an item in the cart, sets the cookie again and redirects to same page again
+router.get("/add-cart/:id", function (req, res) {
   const cart = parseCart(req.cookies.cart);
   cart.push(req.params.id);
   res.cookie("cart", cart, buildCartCookie(cart));
@@ -61,7 +70,8 @@ router.get("/add-cart/:id", function (req, res, next) {
   res.redirect("back");
 });
 
-router.get("/checkout", async function (req, res, next) {
+//Gets cart details to show on the checkout page and renders the checkout view
+router.get("/checkout", cartMiddleware, async function (req, res) {
   const cart = parseCart(req.cookies.cart);
   const { items, total } = await getCartDetails(cart);
   if (!items.length) {
@@ -71,7 +81,9 @@ router.get("/checkout", async function (req, res, next) {
   res.render("site/checkout", { items, total });
 });
 
-router.post("/checkout", async function (req, res, next) {
+//This route creates an order, gets details like name, email and address from the form, gets cart items from the cart
+// and  creates an order in mongodb, clears cart cookie and redirects to the order status page
+router.post("/checkout", cartMiddleware, async function (req, res) {
   const { name, email, address } = req.body;
   if (!name || !email) {
     req.flash("danger", "Name and email are required");
@@ -103,20 +115,25 @@ router.post("/checkout", async function (req, res, next) {
   res.redirect(`/order/${order._id}`);
 });
 
-router.get("/order/:id", async function (req, res, next) {
+
+//Renders the order status page for a given order id, passes order details to relevant ejs template
+router.get("/order/:id", async function (req, res) {
   const order = await Order.findById(req.params.id);
-  if (!order) return next();
+  if (!order) return res.status(404).send("Order not found");
   const steps = ["ordered", "shipped", "delivered"];
   res.render("site/order-status", { order, steps });
 });
 
-router.get("/product/:id", async function (req, res, next) {
+//Renders the product details page, gets product details from database and passes to product ejs template to be rendered
+router.get("/product/:id", async function (req, res) {
   const product = await Product.findById(req.params.id);
-  if (!product) return next();
+  if (!product) return res.status(404).send("Product not found")
   res.render("site/product", { product });
 });
 
-router.get("/:page?", async function (req, res, next) {
+//Main dashboard renderer route, fetches total pages, gets the current page data (1 if not specified), fetches products for that page
+//and renders the homepage route
+router.get("/:page?", async function (req, res) {
   const page = Number(req.params.page) || 1;
   const pageSize = 10;
   const totalProducts = await Product.countDocuments();
