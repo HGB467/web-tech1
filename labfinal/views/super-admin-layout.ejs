@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <link rel="stylesheet" href="/stylesheets/admin.css" />
+</head>
+<body class="admin-body">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark">NC</div>
+        <div>
+          <div class="eyebrow">Nova Commerce</div>
+          <div class="sidebar-title">Control Center</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link <%= currentPath === '/super-admin' || currentPath === '/super-admin/' ? 'active' : '' %>" href="/super-admin">Dashboard</a>
+        <a class="sidebar-link <%= currentPath.includes('/products') ? 'active' : '' %>" href="/super-admin/products">Products</a>
+        <a class="sidebar-link <%= currentPath.includes('/orders') ? 'active' : '' %>" href="/super-admin/orders">Orders</a>
+        <a class="sidebar-link <%= currentPath.includes('/users') ? 'active' : '' %>" href="/super-admin/users">Users</a>
+        <a class="sidebar-link" href="/">View Storefront</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <div class="eyebrow">Super Admin</div>
+          <h1 class="page-title"><%= pageTitle || title %></h1>
+        </div>
+        <div class="top-actions">
+          <a class="button primary" href="/">Back to site</a>
+        </div>
+      </header>
+      <div class="admin-content">
+        <%- body %>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

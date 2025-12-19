@@ -1,0 +1,50 @@
+<div class="panel">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Orders</div>
+      <h2 class="panel-title">Recent orders</h2>
+    </div>
+    <div class="pill-row">
+      <a class="button ghost" href="/super-admin">Dashboard</a>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Items</th>
+          <th>Placed</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (orders.length) { %>
+          <% orders.forEach(order => { %>
+            <tr>
+              <td><%= order.customerName %></td>
+              <td><%= order.customerEmail %></td>
+              <td>$<%= order.total %></td>
+              <td>
+                <span class="status-badge <%= order.status %>"><%= order.status %></span>
+              </td>
+              <td><%= order.items.length %></td>
+              <td><%= order.createdAt ? order.createdAt.toDateString() : '—' %></td>
+              <td class="table-actions">
+                <a class="chip-btn" href="/super-admin/orders/edit/<%= order._id %>">Update</a>
+                <a class="chip-btn danger" href="/super-admin/orders/delete/<%= order._id %>">Delete</a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td class="muted" colspan="7">No orders yet</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

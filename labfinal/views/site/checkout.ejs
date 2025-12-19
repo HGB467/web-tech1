@@ -1,0 +1,58 @@
+<div class="split checkout-layout">
+  <div class="panel">
+    <div class="actions actions-cart-top">
+      <h2 class="section-title">Checkout</h2>
+      <a class="btn btn-ghost" href="/cart">Back to cart</a>
+    </div>
+    <form class="checkout-form" action="/checkout" method="POST">
+      <div class="checkout-fields">
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" value="<%= user ? user.name || '' : '' %>" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" value="<%= user ? user.email || '' : '' %>" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input id="address" name="address" type="text" placeholder="Street, city, zip" />
+      </div>
+      <div class="form-actions checkout-actions">
+        <button class="btn btn-primary" type="submit">Place order</button>
+        <a class="btn btn-secondary" href="/">Keep shopping</a>
+      </div>
+    </form>
+  </div>
+  <div class="panel">
+    <h3 class="section-title">Items</h3>
+    <div class="order-items">
+      <% items.forEach(function(item){ %>
+        <div class="order-item">
+          <div class="order-item-info">
+            <div class="order-item-thumb">
+              <% if(item.product.image) { %>
+                <img src="/images/uploaded/<%= item.product.image %>" alt="<%= item.product.name %>" />
+              <% } else { %>
+                <span class="muted">No image</span>
+              <% } %>
+            </div>
+            <div class="order-item-details">
+              <strong><%= item.product.name %></strong>
+              <div class="muted">Qty: <%= item.quantity %></div>
+            </div>
+          </div>
+          <div class="order-item-meta">
+            <div class="order-item-price">$<%= item.lineTotal %></div>
+            <div class="muted">$<%= item.price %> each</div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    <div class="actions actions-total">
+      <span class="muted">Subtotal</span>
+      <span class="price">$<%= total %></span>
+    </div>
+  </div>
+</div>

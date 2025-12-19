@@ -1,0 +1,65 @@
+<div class="panel">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Orders</div>
+      <h2 class="panel-title">Update order</h2>
+    </div>
+    <div class="pill-row">
+      <a class="button ghost" href="/super-admin/orders">Back to orders</a>
+    </div>
+  </div>
+  <div class="form-grid">
+    <div class="field">
+      <label>Customer</label>
+      <div class="pill"><%= order.customerName %></div>
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <div class="pill"><%= order.customerEmail %></div>
+    </div>
+    <div class="field">
+      <label>Total</label>
+      <div class="pill">$<%= order.total %></div>
+    </div>
+    <div class="field">
+      <label>Address</label>
+      <div class="pill"><%= order.address || '—' %></div>
+    </div>
+  </div>
+  <form action="/super-admin/orders/edit/<%= order._id %>" method="POST">
+    <div class="form-grid">
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="ordered" <%= order.status === 'ordered' ? 'selected' : '' %>>Ordered</option>
+          <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Shipped</option>
+          <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="button primary" type="submit">Save</button>
+      <a class="button ghost" href="/super-admin/orders">Cancel</a>
+    </div>
+  </form>
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% order.items.forEach(item => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.quantity %></td>
+            <td>$<%= item.price %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

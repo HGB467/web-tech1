@@ -1,0 +1,71 @@
+<div class="section">
+  <div class="panel status-panel">
+    <div class="actions actions-cart-top">
+      <div>
+        <div class="muted">Order <%= order._id %></div>
+        <h2 class="section-title">Order status</h2>
+      </div>
+      <a class="btn btn-secondary" href="/">Continue shopping</a>
+    </div>
+    <% const currentStep = steps.indexOf(order.status); %>
+    <div class="status-slider status-<%= order.status %>">
+      <div class="status-bar">
+        <div class="status-fill"></div>
+      </div>
+      <div class="status-steps">
+        <% steps.forEach(function(step, index){ %>
+          <div class="status-step <%= index <= currentStep ? 'active' : '' %>"><%= step %></div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="split status-split">
+  <div class="panel">
+    <h3 class="section-title">Delivery details</h3>
+    <div class="order-meta">
+      <div class="order-meta-row">
+        <div class="order-meta-label">Customer</div>
+        <div class="order-meta-value"><%= order.customerName %></div>
+      </div>
+      <div class="order-meta-row">
+        <div class="order-meta-label">Email</div>
+        <div class="order-meta-value"><%= order.customerEmail %></div>
+      </div>
+      <div class="order-meta-row">
+        <div class="order-meta-label">Address</div>
+        <div class="order-meta-value"><%= order.address || "—" %></div>
+      </div>
+      <div class="order-meta-row">
+        <div class="order-meta-label">Total</div>
+        <div class="order-meta-value price">$<%= order.total %></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3 class="section-title">Items</h3>
+    <div class="order-items">
+      <% order.items.forEach(function(item){ %>
+        <div class="order-item">
+          <div class="order-item-info">
+            <div class="order-item-thumb">
+              <% if(item.image) { %>
+                <img src="/images/uploaded/<%= item.image %>" alt="<%= item.name %>" />
+              <% } else { %>
+                <span class="muted">No image</span>
+              <% } %>
+            </div>
+            <div class="order-item-details">
+              <strong><%= item.name %></strong>
+              <div class="muted">Qty: <%= item.quantity %></div>
+            </div>
+          </div>
+          <div class="order-item-meta">
+            <div class="order-item-price">$<%= item.price * item.quantity %></div>
+            <div class="muted">$<%= item.price %> each</div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>

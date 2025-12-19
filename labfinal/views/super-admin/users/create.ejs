@@ -1,0 +1,35 @@
+<form class="panel" action="/super-admin/users/create" method="POST">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Users</div>
+      <h2 class="panel-title">Invite user</h2>
+    </div>
+    <div class="pill-row">
+      <a class="button ghost" href="/super-admin/users">Back</a>
+      <button class="button primary" type="submit">Create user</button>
+    </div>
+  </div>
+  <div class="form-grid">
+    <label class="field">
+      <span>Name</span>
+      <input type="text" name="name" required placeholder="Jordan Carter">
+    </label>
+    <label class="field">
+      <span>Email</span>
+      <input type="email" name="email" required placeholder="jordan@example.com">
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input type="password" name="password" required placeholder="Strong password">
+    </label>
+    <label class="field">
+      <span>Roles</span>
+      <input type="text" name="roles" placeholder="admin,super-admin">
+      <small>Comma separated roles</small>
+    </label>
+  </div>
+  <div class="form-actions">
+    <a class="button ghost" href="/super-admin/users">Cancel</a>
+    <button class="button primary" type="submit">Save</button>
+  </div>
+</form>

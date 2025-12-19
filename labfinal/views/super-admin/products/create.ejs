@@ -1,0 +1,44 @@
+<form class="panel" action="/super-admin/products/create" method="POST" enctype="multipart/form-data">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Products</div>
+      <h2 class="panel-title">Create product</h2>
+    </div>
+    <div class="pill-row">
+      <a class="button ghost" href="/super-admin/products">Back</a>
+    </div>
+  </div>
+  <div class="form-grid">
+    <label class="field">
+      <span>Name</span>
+      <input type="text" name="name" required placeholder="UltraGlow Desk Lamp">
+    </label>
+    <label class="field">
+      <span>Price</span>
+      <input type="text" name="price" required placeholder="79.00">
+    </label>
+    <label class="field">
+      <span>Color</span>
+      <input type="text" name="color" placeholder="Graphite">
+    </label>
+    <label class="field">
+      <span>Department</span>
+      <input type="text" name="department" placeholder="Lighting">
+    </label>
+  </div>
+  <label class="field">
+    <span>Description</span>
+    <textarea name="description" rows="3" placeholder="Key details, materials, and why it belongs in our lineup"></textarea>
+  </label>
+  <div class="form-grid">
+    <label class="field">
+      <span>Product image</span>
+      <input type="file" name="image" accept="image/*">
+      <small>Square or landscape works best</small>
+    </label>
+  </div>
+  <div class="form-actions">
+    <a class="button ghost" href="/super-admin/products">Cancel</a>
+    <button class="button primary" type="submit">Create</button>
+  </div>
+</form>

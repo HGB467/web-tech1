@@ -1,0 +1,111 @@
+<section class="section">
+  <div class="feature-row">
+    <div class="hero-card">
+      <div class="tagline">Signature drop</div>
+      <h1 class="hero-title"><%= pagetitle %></h1>
+      <p class="hero-subtitle">Layered textures, confident tones, and pieces built to move with you.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/cart">View cart</a>
+        <a class="btn btn-secondary" href="/contact-us">Contact concierge</a>
+      </div>
+      <div class="stat-grid">
+        <div class="stat">
+          <h4>48h</h4>
+          <p>Dispatch window</p>
+        </div>
+        <div class="stat">
+          <h4>4.8★</h4>
+          <p>Guest rating</p>
+        </div>
+        <div class="stat">
+          <h4>30d</h4>
+          <p>Easy returns</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="pill">Design</div>
+      <h3 class="feature-card-title">Built for movement</h3>
+      <p class="muted">Breathable fabrics and tailored lines keep you sharp from day to night.</p>
+    </div>
+    <div class="feature-card">
+      <div class="pill">Curation</div>
+      <h3 class="feature-card-title">Color-forward drops</h3>
+      <p class="muted">Statement hues paired with grounded essentials to mix and layer.</p>
+    </div>
+    <div class="feature-card">
+      <div class="pill">Care</div>
+      <h3 class="feature-card-title">Sustainably minded</h3>
+      <p class="muted">Responsible sourcing and packaging on every order.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section products-band">
+  <div class="products-header">
+    <div>
+      <p class="tagline products-tagline">Featured</p>
+      <h2>Product highlights</h2>
+      <p class="muted products-subtitle">Curated picks with fast dispatch.</p>
+    </div>
+    <div class="muted">Page <strong><%= page %></strong> / <strong><%= totalPages %></strong></div>
+  </div>
+  <% if(products.length === 0) { %>
+    <div class="empty-state">
+      <p>No products here yet. Check back soon.</p>
+    </div>
+  <% } else { %>
+    <div class="products-grid">
+      <% products.forEach(function(product){ %>
+        <div class="product-card">
+          <div class="product-media <%= product.image ? '' : 'placeholder' %>">
+            <div class="product-cap"><%= product.department || "Collection" %></div>
+            <% if(product.image) { %>
+              <img class="home-image" src="/images/uploaded/<%= product.image %>" alt="<%= product.name %>"/>
+            <% } else { %>
+              <span>Image coming soon</span>
+            <% } %>
+          </div>
+          <div class="product-body">
+            <div class="product-header">
+              <h3 class="product-title"><a href="/product/<%= product._id %>"><%= product.name %></a></h3>
+              <div class="product-price">$<%= product.price %></div>
+            </div>
+            <p class="product-description"><%= product.description %></p>
+            <div class="product-attributes">
+              <span class="product-chip color-chip">
+                <span>Color: <%= product.color  %></span>
+              </span>
+              <span class="product-chip muted">Dispatch 48h</span>
+            </div>
+            <div class="product-actions">
+              <a class="btn btn-primary" href="/add-cart/<%= product._id %>">Add to cart</a>
+              <a class="btn btn-secondary" href="/product/<%= product._id %>">View details</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<div class="pagination">
+  <% if(page > 1) { %>
+    <a href="/<%= page - 1 %>">&larr;</a>
+  <% } else { %>
+    <span>&larr;</span>
+  <% } %>
+  <% for(var i = 1; i <= totalPages; i++) { %>
+    <a class="<%= i === page ? 'active' : '' %>" href="/<%= i %>"><%= i %></a>
+  <% } %>
+  <% if(page < totalPages) { %>
+    <a href="/<%= page + 1 %>">&rarr;</a>
+  <% } else { %>
+    <span>&rarr;</span>
+  <% } %>
+</div>

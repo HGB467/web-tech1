@@ -1,0 +1,6 @@
+{
+  "jwtPrivateKey": "myPrivateKey",
+  "db": "mongodb+srv://HGB46:New-tones1@cluster0.m2kofrp.mongodb.net/fullstack",
+  "port": "4000",
+  "sessionSecret": "MySessionSecret"
+}

@@ -1,0 +1,35 @@
+<form class="panel" action="/super-admin/users/edit/<%= user._id %>" method="POST">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Users</div>
+      <h2 class="panel-title">Edit user</h2>
+    </div>
+    <div class="pill-row">
+      <a class="button ghost" href="/super-admin/users">Back</a>
+      <button class="button primary" type="submit">Update</button>
+    </div>
+  </div>
+  <div class="form-grid">
+    <label class="field">
+      <span>Name</span>
+      <input type="text" name="name" value="<%= user.name %>" required>
+    </label>
+    <label class="field">
+      <span>Email</span>
+      <input type="email" name="email" value="<%= user.email %>" required>
+    </label>
+    <label class="field">
+      <span>New password</span>
+      <input type="password" name="password" placeholder="Leave blank to keep current">
+    </label>
+    <label class="field">
+      <span>Roles</span>
+      <input type="text" name="roles" value="<%= (user.roles || []).join(',') %>">
+      <small>Comma separated roles</small>
+    </label>
+  </div>
+  <div class="form-actions">
+    <a class="button ghost" href="/super-admin/users">Cancel</a>
+    <button class="button primary" type="submit">Save changes</button>
+  </div>
+</form>

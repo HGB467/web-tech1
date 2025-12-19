@@ -1,0 +1,29 @@
+<section class="section product-detail">
+  <div class="product-card product-detail-card">
+    <div class="product-media <%= product.image ? '' : 'placeholder' %>">
+      <div class="product-cap"><%= product.department || "Collection" %></div>
+      <% if(product.image) { %>
+        <img src="/images/uploaded/<%= product.image %>" alt="<%= product.name %>" />
+      <% } else { %>
+        <span>Image coming soon</span>
+      <% } %>
+    </div>
+    <div class="product-body">
+      <div class="product-header">
+        <h1 class="product-title"><%= product.name %></h1>
+        <div class="product-price">$<%= product.price %></div>
+      </div>
+      <div class="product-attributes">
+        <span class="product-chip color-chip">
+          <span>Color: <%= product.color %></span>
+        </span>
+        <span class="product-chip muted">Department: <%= product.department || "Collection" %></span>
+      </div>
+      <p class="product-description"><%= product.description %></p>
+      <div class="product-actions">
+        <a class="btn btn-primary" href="/add-cart/<%= product._id %>">Add to cart</a>
+        <a class="btn btn-secondary" href="/">Continue shopping</a>
+      </div>
+    </div>
+  </div>
+</section>

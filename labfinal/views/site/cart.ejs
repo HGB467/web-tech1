@@ -1,0 +1,54 @@
+<div class="split">
+  <div class="panel">
+    <div class="actions actions-cart-top">
+      <h2 class="section-title">Your cart</h2>
+      <a class="btn btn-ghost" href="/">Continue shopping</a>
+    </div>
+    <% if(items.length === 0) { %>
+      <div class="empty-state">
+        <p>Your cart is empty.</p>
+      </div>
+    <% } else { %>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(function(item){ %>
+            <tr>
+              <td>
+                <div class="actions actions-table-row">
+                  <div>
+                    <strong><a href="/product/<%= item.product._id %>"><%= item.product.name %></a></strong>
+                    <div class="muted">Color: <%= item.product.color || "multi" %></div>
+                  </div>
+                </div>
+              </td>
+              <td><%= item.quantity %></td>
+              <td>$<%= item.product.price %></td>
+              <td>$<%= item.lineTotal %></td>
+              <td><a class="btn btn-secondary" href="/cart/remove/<%= item.product._id %>">Remove</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+  <div class="panel">
+    <h3 class="section-title">Order summary</h3>
+    <div class="actions actions-total">
+      <span class="muted">Subtotal</span>
+      <span class="price">$<%= total %></span>
+    </div>
+    <div class="actions actions-cart-bottom">
+      <a class="btn btn-primary" href="/checkout">Proceed to checkout</a>
+      <a class="btn btn-secondary" href="/cart/clear">Clear cart</a>
+    </div>
+  </div>
+</div>

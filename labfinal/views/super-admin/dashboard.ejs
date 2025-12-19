@@ -1,0 +1,119 @@
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="eyebrow">Products</div>
+    <div class="stat-value"><%= stats.productCount %></div>
+    <div class="muted">Live in catalog</div>
+  </div>
+  <div class="stat-card">
+    <div class="eyebrow">Users</div>
+    <div class="stat-value"><%= stats.userCount %></div>
+    <div class="muted">Accounts in the system</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Quick actions</div>
+      <h3 class="panel-title">Catalog</h3>
+    </div>
+    <div class="pill-row">
+      <a class="button primary" href="/super-admin/products/create">Add product</a>
+      <a class="button ghost" href="/super-admin/users/create">Invite user</a>
+    </div>
+  </div>
+  <div class="pill-row">
+    <a class="pill" href="/super-admin/products">Manage products</a>
+    <a class="pill" href="/super-admin/users">Manage users</a>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Fresh updates</div>
+      <h3 class="panel-title">Recent products</h3>
+    </div>
+    <a class="button ghost" href="/super-admin/products">View all</a>
+  </div>
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Color</th>
+          <th>Price</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (products.length) { %>
+          <% products.forEach(product => { %>
+            <tr>
+              <td><%= product.name %></td>
+              <td><%= product.department || '—' %></td>
+              <td><%= product.color || '—' %></td>
+              <td>$<%= product.price %></td>
+              <td class="table-actions">
+                <a class="chip-btn" href="/super-admin/products/edit/<%= product._id %>">Edit</a>
+                <a class="chip-btn danger" href="/super-admin/products/delete/<%= product._id %>">Delete</a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td class="muted" colspan="5">No products yet</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">People</div>
+      <h3 class="panel-title">Recent users</h3>
+    </div>
+    <a class="button ghost" href="/super-admin/users">View all</a>
+  </div>
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Roles</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (users.length) { %>
+          <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td>
+                <div class="pill-row">
+                  <% (user.roles || []).forEach(role => { %>
+                    <span class="badge"><%= role %></span>
+                  <% }) %>
+                </div>
+              </td>
+              <td class="table-actions">
+                <a class="chip-btn" href="/super-admin/users/edit/<%= user._id %>">Edit</a>
+                <a class="chip-btn danger" href="/super-admin/users/delete/<%= user._id %>">Delete</a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td class="muted" colspan="4">No users yet</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

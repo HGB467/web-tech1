@@ -1,0 +1,49 @@
+<div class="panel">
+  <div class="panel-header">
+    <div>
+      <div class="eyebrow">Users</div>
+      <h2 class="panel-title">Team directory</h2>
+    </div>
+    <div class="pill-row">
+      <a class="button ghost" href="/super-admin">Dashboard</a>
+      <a class="button primary" href="/super-admin/users/create">Invite user</a>
+    </div>
+  </div>
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+      <th>Roles</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (users.length) { %>
+      <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.name %></td>
+          <td class="muted"><%= user.email %></td>
+          <td>
+            <div class="pill-row">
+              <% (user.roles || []).forEach(role => { %>
+                <span class="badge"><%= role %></span>
+              <% }) %>
+            </div>
+          </td>
+          <td class="table-actions">
+            <a class="chip-btn" href="/super-admin/users/edit/<%= user._id %>">Edit</a>
+            <a class="chip-btn danger" href="/super-admin/users/delete/<%= user._id %>">Delete</a>
+          </td>
+        </tr>
+      <% }) %>
+    <% } else { %>
+      <tr>
+        <td class="muted" colspan="4">No users yet</td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+  </div>
+</div>
